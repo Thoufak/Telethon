@@ -126,5 +126,7 @@ async def _update_loop(self: 'TelegramClient'):
             users, chats = self._message_box.process_updates(updates, self._entity_cache, processed)
             self._entity_cache.extend(users, chats)
             updates_to_dispatch.extend(processed)
+    except asyncio.CancelledError:
+        raise
     except Exception:
         self._log[__name__].exception('Fatal error handling updates (this is a bug in Telethon, please report it)')
